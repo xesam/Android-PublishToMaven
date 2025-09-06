@@ -1,0 +1,10 @@
+# 复制此文件为 .gradle/gradle.properties 并填入实际值
+# 重要！重要！重要！
+# 不要将此文件提交到版本控制
+
+mavenCentralUsername=<UserToken用户名>
+mavenCentralPassword=<UserToken密码>
+
+signing.keyId=<你的密钥ID>
+signing.password=<创建密钥时输入的密码>
+signing.secretKeyRingFile=/Users/yourusername/.gnupg/secring.gpg

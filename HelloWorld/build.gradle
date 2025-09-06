@@ -1,0 +1,74 @@
+plugins {
+    alias(libs.plugins.android.library)
+    id "com.vanniktech.maven.publish" version "0.34.0" // 发布插件，最新版本参见插件文档
+    id 'signing'
+}
+
+android {
+    namespace 'io.github.xesam.android.publish.helloworld'
+    compileSdk 36
+
+    defaultConfig {
+        minSdk 19
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+    implementation libs.appcompat
+    implementation libs.material
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+}
+
+mavenPublishing {
+    coordinates("io.github.xesam", "android-helloworld", "0.0.1") // 这里的 GroupId（"io.github.xesam"）需要与 后台账号的 Namespace 一致
+
+    // 以下的配置根据实际情况填写
+    
+    pom {
+        name = 'HelloWorld Android Library'
+        description = 'A simple Android library for demonstration'
+        url = 'https://github.com/xesam/AndroidPublish'
+
+        licenses {
+            license {
+                name = 'The Apache License, Version 2.0'
+                url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            }
+        }
+
+        developers {
+            developer {
+                id = 'xesam'
+                name = 'xesam'
+                email = 'xesam@outlook.com'
+            }
+        }
+
+        scm {
+            connection = 'scm:git:git://github.com/xesam/AndroidPublish.git'
+            developerConnection = 'scm:git:ssh://github.com:xesam/AndroidPublish.git'
+            url = 'https://github.com/xesam/AndroidPublish'
+        }
+    }
+
+    // 发布到Maven Central
+    publishToMavenCentral()
+    // 对发布的包进行签名
+    signAllPublications()
+}
