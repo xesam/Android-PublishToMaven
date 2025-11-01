@@ -40,15 +40,45 @@
 2. 配置要发布的库 `build.gradle`，具体可以参考 [HelloWorld/build.gradle](./HelloWorld/build.gradle) 的配置或者 `com.vanniktech.maven.publish` 插件的文档；
 3. 配置打包需要用到的签名信息和发布需要用到的账号密码：参考 [gradle.properties.template](./gradle.properties.template) 配置；
 
-### 5. 发布到 Maven 中心仓库
+### 5. 发布到 Maven 仓库
 
-1. 发布：在项目目录下执行 `./gradlew publishToMavenCentral` 或者 `./gradlew <module_name>:publishToMavenCentral` 即可发布到 Maven 中心仓库；
-2. 发布成功后，在 `sonatype` 后台的 `Deployments` 页面可以看到待发布的库，如果状态是 `VALIDATED`, 则点击 `Publish` 可以发布到 `Maven Central` 中心仓库；
+#### 5.1 发布到本机仓库
 
-> 当前插件还支持 `./gradlew publishAndReleaseToMavenCentral` 这个命令，会自动发布到 Maven 中心仓库并发布到 `Maven Central`，不过还是小心为好，确认无误之后再发布。
+在项目根目录下执行 
 
-### 6. 验证是否成功
-1. 等待一段时间（不确定，建议在后台网页刷新查看），即可在 Maven 中心仓库中看到发布的库，其他应用就可以使用 `implementation "<groupId>:<artifactId>:<version>"` 的方式正常引用了。
+```shell
+./gradlew clean publishToMavenLocal
+# 或者
+./gradlew <module_name>:clean <module_name>:publishToMavenLocal
+```
+即可发布到本机的 Maven 仓库， 可以在用户目录的 `.m2/repository` 目录下查看发布的库。
+
+#### 5.2 发布到 Maven 中心仓库：
+
+发布分为两个步骤：
+
+- 提交；
+- 发布；
+
+1. 提交到 Maven 中心仓库：
+
+在项目根目录下执行 
+
+```shell
+./gradlew clean publishToMavenCentral
+# 或者
+./gradlew <module_name>:clean <module_name>:publishToMavenCentral
+```
+即可提交到 Maven 中心仓库。
+
+2. 提交成功后，在 `sonatype` 后台的 `Deployments` 页面可以看到待发布的库，如果状态是 `VALIDATED`, 则点击 `Publish` 可以发布到 `Maven Central` 中心仓库；
+
+
+> 当前插件还支持 `./gradlew publishAndReleaseToMavenCentral` 这个命令，会提交到 Maven 中心仓库并自动发布到 `Maven Central`，建议还是小心为好，确认无误之后再手动发布。
+
+3. 验证发布结果
+
+等待一段时间（时间不确定，建议在后台网页刷新查看），即可在 Maven 中心仓库中看到发布的库，其他应用就可以使用 `implementation "<groupId>:<artifactId>:<version>"` 的方式正常引用了。
 
 ## 友情提示
 
